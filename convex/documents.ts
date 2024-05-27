@@ -1,6 +1,18 @@
 import { action, mutation, query } from "./_generated/server";
 import { ConvexError, v } from "convex/values";
 import { api } from "./_generated/api";
+import { OpenAI } from "openai";
+
+const client = new OpenAI({
+  apiKey: process.env["OPEN_AI_KEY"],
+});
+
+async function main() {
+  const chatCompletion = await client.chat.completions.create({
+    messages: [{ role: "user", content: "say this is a test" }],
+    model: "gpt-3.5-turbo",
+  });
+}
 
 export const generateUploadUrl = mutation(async (ctx) => {
   return await ctx.storage.generateUploadUrl();
