@@ -8,10 +8,18 @@ import { useQuery } from "convex/react";
 
 export default function ChatPanel() {
   return (
-    <div className="w-[300px] bg-gray-900">
-      <div className="felx gap-1">
-        <Input name="text" />
-        <Button></Button>
+    <div className="w-[300px] bg-gray-900 flex flex-col gap-2 p-4">
+      <div className="h-[350px] overflow-y-auto"></div>
+      <div className="flex gap-1">
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            // TODO: Call convex
+          }}
+        >
+          <Input required name="text" />
+          <Button>ثبت</Button>
+        </form>
       </div>
     </div>
   );
