@@ -1,5 +1,6 @@
-import { mutation, query } from "./_generated/server";
+import { action, mutation, query } from "./_generated/server";
 import { ConvexError, v } from "convex/values";
+import { api } from "./_generated/api";
 
 export const generateUploadUrl = mutation(async (ctx) => {
   return await ctx.storage.generateUploadUrl();
@@ -41,8 +42,9 @@ export const getDocument = query({
       return null;
     }
 
-    return {...document,
-      documentUrl: await ctx.storage.getUrl(document.fileId)
+    return {
+      ...document,
+      documentUrl: await ctx.storage.getUrl(document.fileId),
     };
   },
 });
@@ -63,5 +65,31 @@ export const createDocument = mutation({
       tokenIdentifier: userId,
       fileId: args.fileId,
     });
+  },
+});
+
+export const askQuestion = action({
+  args: {
+    question: v.string(),
+    documentId: v.id("documents"),
+  },
+  async handler(ctx, args) {
+    const userId = (await ctx.auth.getUserIdentity())?.tokenIdentifier;
+
+    if (!userId) {
+      throw new ConvexError("Not authenticated");
+    }
+    const document = await ctx.runQuery(api.documents.getDocument, {
+      documentId: args.documentId,
+    });
+
+    if (!document) {
+      throw new ConvexError("فایل موجود نیست");
+    }
+
+    const file = await ctx.storage.get(document.fileId);
+    if (!file) {
+      throw new ConvexError("فایل موجود نیست");
+    }
   },
 });
