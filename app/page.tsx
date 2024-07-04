@@ -26,9 +26,7 @@ export default function Home() {
         >
           Click Me
         </button>
-        {documents?.map((doc) => (
-          <div key={doc._id}>{doc.title}</div>
-        ))}
+        {documents?.map((doc) => <div key={doc._id}>{doc.title}</div>)}
       </Authenticated>
     </main>
   );
