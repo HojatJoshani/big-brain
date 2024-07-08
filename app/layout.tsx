@@ -1,9 +1,12 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
 import { Providers } from "./providers";
+import localFont from "next/font/local"
+import type { Metadata } from "next";
+import "./globals.css";
+import { Header } from "./header";
 
-const inter = Inter({ subsets: ["latin"] });
+const vairFont = localFont({
+  src: "../public/fonts/Vazirmatn-Regular.woff2"
+})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,9 +19,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" dir="rtl">
-      <body className={inter.className}>
-        <Providers>{children}</Providers>
+    <html lang="en" dir="rtl" suppressHydrationWarning>
+      <body className={vairFont.className}>
+        <Providers>
+          <Header />
+          {children}
+          </Providers>
       </body>
     </html>
   );
