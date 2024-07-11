@@ -26,8 +26,9 @@ export default function DocumentPage({
       </div>
       <div className="flex gap-12">
         <div className="bg-gray-900 p-4 rounded flex-1 h-[600px]">
-          {document.documentUrl && <iframe 
-          className="w-full h-full" src={document.documentUrl} />}
+          {document.documentUrl && (
+            <iframe className="w-full h-full" src={document.documentUrl} />
+          )}
         </div>
 
         <div className="w-[300px] bg-gray-900"></div>
